@@ -22,6 +22,7 @@ const getMyTransfers = async (userId: number) => {
           select: {
             user: {
               select: {
+                id: true,
                 firstname: true,
                 lastname: true,
                 email: true,
@@ -33,6 +34,7 @@ const getMyTransfers = async (userId: number) => {
           select: {
             user: {
               select: {
+                id: true,
                 firstname: true,
                 lastname: true,
                 email: true,
@@ -42,6 +44,7 @@ const getMyTransfers = async (userId: number) => {
         },
         amount: true,
         id: true,
+        timeStamp: true,
       },
     });
     return result;
