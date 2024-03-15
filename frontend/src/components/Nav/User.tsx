@@ -3,6 +3,7 @@ import { useRecoilValue } from "recoil";
 
 export type userInfoType = {
   firstname: string;
+  image_url: string;
   lastname: string;
   id: number;
   email: string;

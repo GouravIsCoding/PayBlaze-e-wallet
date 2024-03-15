@@ -5,11 +5,17 @@ dotenv.config({ path: path.resolve(__dirname, "../.env") });
 interface env {
   DATABASE_URL: string;
   JWT_SECRET: string;
+  ClOUDINARY_CLOUD_NAME: string;
+  CLOUDINARY_API_KEY: string;
+  CLOUDINARY_API_SECRET: string;
 }
 
 const Env: env = {
   DATABASE_URL: process.env.DATABASEURL || "",
   JWT_SECRET: process.env.JWT_SECRET || "",
+  ClOUDINARY_CLOUD_NAME: process.env.ClOUDINARY_CLOUD_NAME || "",
+  CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY || "",
+  CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET || "",
 };
 
 export { Env };

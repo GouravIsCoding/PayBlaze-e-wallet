@@ -19,6 +19,7 @@ export default function AuthWrap(props: customProps) {
     "/transaction/transfer/complete",
     "transaction/historylist",
     "transaction/deposit",
+    "/profile",
   ];
 
   useEffect(() => {

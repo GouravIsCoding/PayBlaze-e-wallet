@@ -28,7 +28,9 @@ export default function Navbar() {
           } md:inline-block md:static md:float-right md:w-auto text-lg absolute top-10 right-0 bg-customColor h-screen md:h-auto transition-all duration-200 z-50`}
         >
           <li className="list-none ml-7 my-4 md:my-0 md:inline-block block">
-            <User />
+            <Link to={"/profile"}>
+              <User />
+            </Link>
           </li>
           {navArr.map(
             (item) =>

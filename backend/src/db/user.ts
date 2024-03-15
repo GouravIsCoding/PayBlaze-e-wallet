@@ -69,6 +69,8 @@ const getUserById = async (userId: number) => {
         email: true,
         firstname: true,
         lastname: true,
+        image_id: true,
+        image_url: true,
         account: {
           select: {
             balance: true,
@@ -126,5 +128,24 @@ const getUserList = async (filter: any) => {
     throw error;
   }
 };
+const uploadImage = async (
+  image_id: string | undefined,
+  image_url: string | undefined,
+  userId: number
+) => {
+  try {
+    const result = await prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        image_id: image_id,
+        image_url: image_url,
+      },
+    });
+  } catch (error) {
+    throw error;
+  }
+};
 
-export { createUser, getUser, getUserById, getUserList };
+export { createUser, getUser, getUserById, getUserList, uploadImage };

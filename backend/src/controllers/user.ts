@@ -1,10 +1,17 @@
 import { Request, Response, NextFunction } from "express";
-import { createUser, getUser, getUserById, getUserList } from "../db/user";
+import {
+  createUser,
+  getUser,
+  getUserById,
+  getUserList,
+  uploadImage,
+} from "../db/user";
 import { comparePasswords, hashPassword } from "../lib/bcrypt";
 import { userSchema, loginSchema } from "../validators";
 import { sign, verify } from "jsonwebtoken";
 import { Env } from "../index";
 import { tokenInterface } from "../middleware/auth";
+import { uploadOnCloudinary } from "../Cloudinary";
 
 const registerUser = async (
   req: Request,
@@ -99,5 +106,37 @@ const searchUsers = async (req: Request, res: Response, next: NextFunction) => {
       return res.status(400).json({ error: error.message });
   }
 };
+const uploadProfileImage = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const userId = res.locals.userId;
+    const filePath = req.file?.path;
+    if (!filePath) return res.status(500).json({ error: "file upload failed" });
+    uploadOnCloudinary(filePath)
+      .then(async (profileImage) => {
+        await uploadImage(
+          profileImage?.public_id,
+          profileImage?.secure_url,
+          userId
+        );
+        return res.json({ message: "Successfully uploaded image" });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  } catch (error) {
+    if (error instanceof Error)
+      return res.status(400).json({ error: error.message });
+  }
+};
 
-export { registerUser, loginUser, getUserInfo, searchUsers };
+export {
+  registerUser,
+  loginUser,
+  getUserInfo,
+  searchUsers,
+  uploadProfileImage,
+};

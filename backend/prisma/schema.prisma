@@ -20,6 +20,8 @@ model User{
   lastname String
   password String
   account Account?
+  image_url String?
+  image_id String?
 
 }
 

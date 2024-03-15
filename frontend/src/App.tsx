@@ -14,6 +14,7 @@ const Signup = React.lazy(() => import("./pages/Signup"));
 const Transfer = React.lazy(() => import("./pages/Transfer"));
 const TransferComplete = React.lazy(() => import("./pages/TransferComplete"));
 const Deposit = React.lazy(() => import("./pages/Deposit"));
+const Profile = React.lazy(() => import("./pages/Profile"));
 const TransactionHistory = React.lazy(
   () => import("./pages/TransactionHistory")
 );
@@ -100,6 +101,14 @@ function App() {
               element={
                 <SuspenseWrap>
                   <TransactionHistory />
+                </SuspenseWrap>
+              }
+            />
+            <Route
+              path="profile"
+              element={
+                <SuspenseWrap>
+                  <Profile />
                 </SuspenseWrap>
               }
             />
