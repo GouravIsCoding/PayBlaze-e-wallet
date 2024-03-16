@@ -22,7 +22,19 @@ export const uploadOnCloudinary = async (filePath: string) => {
     return response;
   } catch (error) {
     console.log(error);
-    fs.unlinkSync(filePath); // remove the locally saved temporary file as the upload operation got failed
+    return null;
+  }
+};
+export const destroyOnCloudinary = async (fileId: string) => {
+  try {
+    if (!fileId) return null;
+
+    const response = await cloudinary.uploader.destroy(fileId, {
+      resource_type: "image",
+    });
+    return response;
+  } catch (error) {
+    console.log(error);
     return null;
   }
 };

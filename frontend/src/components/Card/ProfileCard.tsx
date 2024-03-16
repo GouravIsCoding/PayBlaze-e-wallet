@@ -10,7 +10,6 @@ import { Label } from "../ui/label";
 import { FormEvent, useRef, useState } from "react";
 
 import { uploadImage } from "@/services/api/user";
-import { useNavigate } from "react-router-dom";
 const titleCase = (name: string | undefined) => {
   if (!name) return "";
   return name[0].toUpperCase() + name.slice(1).toLowerCase();
@@ -20,7 +19,6 @@ export default function ProfileCard() {
   const userInfo = useRecoilValue<userInfoType>(userInfoSelector);
   const authToken = useRecoilValue(authTokenAtom);
   const inputRef = useRef<HTMLInputElement>(null);
-  const navigate = useNavigate();
   const [err, setErr] = useState<Error>();
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -33,6 +31,15 @@ export default function ProfileCard() {
     if (data) return window.location.reload();
     else if (error) {
       return setErr(() => new Error(error));
+    }
+  };
+  const onClick: React.MouseEventHandler<HTMLButtonElement> = (e) => {
+    const el = document.querySelector("#handle-image");
+    const target = e?.target;
+    if (target instanceof HTMLElement) {
+      const buttonel = target.closest(".click-button");
+      el?.classList.remove("hidden");
+      buttonel?.classList.add("hidden");
     }
   };
 
@@ -50,17 +57,20 @@ export default function ProfileCard() {
             ) : (
               <>
                 <NoImage />
-                <div>
-                  <form onSubmit={onSubmit}>
-                    <Label htmlFor="image" className="text-left">
-                      Image
-                    </Label>
-                    <Input id="image" ref={inputRef} type={"file"} />
-                    <Button type="submit">add Image</Button>
-                  </form>
-                </div>
               </>
             )}
+            <div id="handle-image" className="hidden">
+              <form onSubmit={onSubmit}>
+                <Label htmlFor="image" className="text-left">
+                  Image
+                </Label>
+                <Input id="image" ref={inputRef} type={"file"} />
+                <Button type="submit">add Image</Button>
+              </form>
+            </div>
+            <Button className="click-button" onClick={onClick}>
+              {userInfo?.image_url ? "Edit" : "Add"}
+            </Button>
             <div className="my-2">
               <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">
                 {`${titleCase(userInfo?.firstname)} ${titleCase(
