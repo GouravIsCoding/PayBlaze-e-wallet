@@ -16,6 +16,11 @@ export const authTokenAtom = atom({
   effects_UNSTABLE: [persistAtom],
 });
 
+export const clientSecretAtom = atom({
+  key: "clientsecret",
+  default: "",
+});
+
 export const userInfoSelector = selector({
   key: "CurrentUserInfo",
   get: async ({ get }) => {

@@ -9,12 +9,12 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { authTokenAtom } from "@/recoil";
-import { depositAmount } from "@/services/api/account";
+import { authTokenAtom, clientSecretAtom } from "@/recoil";
+import { initiateDepositAmount } from "@/services/api/account";
 
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import Container from "../container/Container";
 
 export interface customProps {
@@ -28,14 +28,14 @@ interface IFormInput {
 
 export default function DepositMoney(props: customProps) {
   const authToken = useRecoilValue(authTokenAtom);
+  const setClientSecret = useSetRecoilState(clientSecretAtom);
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm<IFormInput>();
   const onSubmit: SubmitHandler<IFormInput> = async (datas) => {
-    const result = await depositAmount(authToken, Number(datas.amount));
+    const result = await initiateDepositAmount(authToken, Number(datas.amount));
     console.log(result);
-    const data = result.data?.data;
+    const data: { amount: number; clientSecret: string } = result.data;
     const error = result.error;
-    const message = result.data?.message;
     if (error) {
       window.scroll({
         top: 0,
@@ -43,11 +43,8 @@ export default function DepositMoney(props: customProps) {
       });
       navigate("/transaction/deposit", { state: { error } });
     } else if (data) {
-      navigate("/dashboard", {
-        state: {
-          message,
-        },
-      });
+      setClientSecret(data.clientSecret);
+      navigate("/deposit/complete");
     }
   };
   const cancelOnClick = () => {

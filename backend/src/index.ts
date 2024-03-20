@@ -8,6 +8,7 @@ interface env {
   ClOUDINARY_CLOUD_NAME: string;
   CLOUDINARY_API_KEY: string;
   CLOUDINARY_API_SECRET: string;
+  STRIPE_API_KEY: string;
 }
 
 const Env: env = {
@@ -16,6 +17,7 @@ const Env: env = {
   ClOUDINARY_CLOUD_NAME: process.env.ClOUDINARY_CLOUD_NAME || "",
   CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY || "",
   CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET || "",
+  STRIPE_API_KEY: process.env.STRIPE_API_KEY || "",
 };
 
 export { Env };

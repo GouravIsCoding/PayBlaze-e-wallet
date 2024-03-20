@@ -35,23 +35,20 @@ export default function ProfileCard() {
   };
   const onClick: React.MouseEventHandler<HTMLButtonElement> = (e) => {
     const el = document.querySelector("#handle-image");
-    const target = e?.target;
-    if (target instanceof HTMLElement) {
-      const buttonel = target.closest(".click-button");
-      el?.classList.remove("hidden");
-      buttonel?.classList.add("hidden");
-    }
+    const button = document.querySelector("#view-hide");
+    el?.classList.toggle("hidden");
+    button?.classList.toggle("hidden");
   };
 
   return (
     <>
       <Container>
-        <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow p-8">
+        <div className="w-full max-w-lg bg-white border border-gray-200 rounded-lg shadow p-8 m-6">
           <div className="flex flex-col items-center justify-evenly pb-4">
             {userInfo?.image_url ? (
               <img
                 crossOrigin="anonymous"
-                className="w-24 md:w-48 h-auto mb-3 rounded-2xl shadow-lg"
+                className="w-full h-auto mb-3 rounded-2xl shadow-lg"
                 src={userInfo?.image_url}
               />
             ) : (
@@ -65,10 +62,23 @@ export default function ProfileCard() {
                   Image
                 </Label>
                 <Input id="image" ref={inputRef} type={"file"} />
-                <Button type="submit">add Image</Button>
+                <Button
+                  className="bg-customColor w-full my-2"
+                  onClick={onClick}
+                  type="button"
+                >
+                  Cancel
+                </Button>
+                <Button className="bg-customColor w-full" type="submit">
+                  Upload Image
+                </Button>
               </form>
             </div>
-            <Button className="click-button" onClick={onClick}>
+            <Button
+              id="view-hide"
+              className="bg-customColor click-button w-full my-2"
+              onClick={onClick}
+            >
               {userInfo?.image_url ? "Edit" : "Add"}
             </Button>
             <div className="my-2">

@@ -1,6 +1,10 @@
 import { Request, Response, NextFunction } from "express";
 import { transferSchema } from "../validators";
 import { createTransfer, addBalance } from "../db/account";
+import { Env } from "..";
+import Stripe from "stripe";
+
+const stripe = new Stripe(Env.STRIPE_API_KEY);
 
 const transferAmount = async (
   req: Request,
@@ -41,5 +45,29 @@ const incrementBalance = async (
       return res.status(400).json({ error: error.message });
   }
 };
+const initiateDeposit = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { amount } = req.body;
+    const userId = res.locals.userId;
 
-export { transferAmount, incrementBalance };
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: amount * 100,
+      currency: "inr",
+      description: `${String(userId)} ${amount} `,
+    });
+
+    return res.json({
+      clientSecret: paymentIntent.client_secret,
+      amount,
+    });
+  } catch (error) {
+    if (error instanceof Error)
+      return res.status(400).json({ error: error.message });
+  }
+};
+
+export { transferAmount, incrementBalance, initiateDeposit };
