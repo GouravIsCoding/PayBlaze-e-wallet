@@ -12,15 +12,7 @@ import { getUserInfo } from "@/services/api/user";
 export default function Dashboard() {
   const authToken = useRecoilValue(authTokenAtom);
   const { pathname } = useLocation();
-  const [userInfo, setUserInfo] = useState<userInfoType>({
-    firstname: "",
-    lastname: "",
-    email: "",
-    id: 0,
-    account: {
-      balance: 0,
-    },
-  });
+  const [userInfo, setUserInfo] = useState<userInfoType>();
   useEffect(() => {
     getUserInfo(authToken).then((user) => {
       const data: userInfoType = user.data?.data;
@@ -35,7 +27,7 @@ export default function Dashboard() {
             <DashboardComp
               secTitle={"Transfer Money"}
               secLink={"/transaction/transfer"}
-              amount={userInfo?.account.balance || 0}
+              subTitle={`Rs ${userInfo?.account.balance || 0}`}
               vector={SendReceive}
             />
           </div>
@@ -43,7 +35,7 @@ export default function Dashboard() {
             <DashboardComp
               secTitle={"Deposit Money"}
               secLink={"/transaction/deposit"}
-              amount={3000}
+              subTitle={"to Wallet"}
               vector={Deposit}
             />
           </div>
@@ -51,7 +43,7 @@ export default function Dashboard() {
             <DashboardComp
               secTitle={"Transaction History"}
               secLink={"/transaction/historylist"}
-              amount={4000}
+              subTitle={"All transactions"}
               vector={History}
             />
           </div>

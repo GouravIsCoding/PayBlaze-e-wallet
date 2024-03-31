@@ -5,7 +5,7 @@ interface customProps {
   vector: React.FC;
   secLink: string;
   secTitle: string;
-  amount: number;
+  subTitle: string;
 }
 
 export default function DashboardComp(props: customProps) {
@@ -20,7 +20,7 @@ export default function DashboardComp(props: customProps) {
             </div>
           </div>
           <div className="my-4 py-2 border-y">
-            <h1 className="text-3xl text-left">Rs {props.amount}</h1>
+            <h1 className="text-3xl text-left">{props.subTitle}</h1>
             <p className="text-gray-500 text-left">till now</p>
           </div>
           <Link to={props.secLink}>

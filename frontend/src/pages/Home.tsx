@@ -32,7 +32,7 @@ export default function Home() {
       >
         <div className="flex flex-col md 2xl:flex-row justify-center align-middle">
           <div className="2xl:w-1/2 flex flex-col text-white  justify-evenly items-center">
-            <h1 className="text-4xl">BlazePay</h1>
+            <h1 className="text-4xl">PayBlaze</h1>
             <h2 className="text-2xl">Blazingly fast Payments</h2>
           </div>
 
